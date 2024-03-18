@@ -4,19 +4,13 @@
 
 <div #mapContainer style="height: 450px; width: 1000px;"></div>
 
-<!-- <div id="map"> -->
-<!-- <google-map
-height="450px"
-            width="1000px"
-            [center]="center"
-            [zoom]="zoom"
-            (mapClick)="moveMap($event)"
-            (mapMousemove)="move($event)">
-            <google-map-circle
-    [options]="circleOptions"
-  ></google-map-circle>
-</google-map> -->
-<!-- </div> -->
+<div class="image-container">
+  <div *ngFor="let photo of latestPhotos">
+    <ng-container *ngIf="photo">
+      <img [src]="photo.prefix + size + photo.suffix" style="height: 200px; width: 200px;">
+    </ng-container>
+  </div>
+</div>
 
-<div>Latitude: {{center.lat}}</div>
-<div>Longitude: {{center.lng}}</div>
+<div>Latitude: {{ center.lat }}</div>
+<div>Longitude: {{ center.lng }}</div>
