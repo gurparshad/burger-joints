@@ -18,7 +18,7 @@ export class RecognizeBurgerService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.post<RecognizeBurgerResponse>('https://73kh1kvgx4.execute-api.eu-west-1.amazonaws.com/prod/recognize', requestBody, { headers }).pipe(
+    return this.http.post<RecognizeBurgerResponse>(`${process.env['RECOGNIZE_BURGER_API_URL']}`, requestBody, { headers }).pipe(
       map((response: RecognizeBurgerResponse) => {
         if (response && response.urlWithBurger) {
           return response.urlWithBurger;

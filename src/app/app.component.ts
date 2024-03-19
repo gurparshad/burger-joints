@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
       if (data[0]) {
         const photoUrl = `${data[0].prefix}${this.size}${data[0].suffix}`;
         this.latestPhotos.push(photoUrl);
-        this.recognizeBurger(photoUrl);
+        // this.recognizeBurger(photoUrl);
       }
     });
   }

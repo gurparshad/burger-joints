@@ -8,16 +8,15 @@ import { FoursquareBurgerJointPhoto, FoursquareBurgerJointsResponse, Venue } fro
   providedIn: 'root'
 })
 export class FoursquareService {
-  private readonly baseUrl = 'http://localhost:3001';
-  private readonly clientId = '4QVKZ42X2BLIP5G4UZ5XVJMRH04C2CSO2SAH3PBS3VINSCWH';
-  private readonly clientSecret = 'J2N4AFVL2PPXT3NAM0DAT4KIBRAJ4FUPKCEIWF30SK3GLOLO';
-  private readonly apiKey = 'fsq3GEVQvzNHfQp14wbZ+6D14vo4S5HoVsMM8Tis87DrZzM=';
+  private readonly baseUrl = process.env['PROXY_URL'] || '';
+  private readonly clientId = process.env['FOURSQUARE_CLIENT_ID'] || '';
+  private readonly clientSecret = process.env['FOURSQUARE_CLIENT_SECRET'] || '';
 
-  http = inject(HttpClient)
+  private http = inject(HttpClient)
 
   getBurgerJointsInTartu(): Observable<Venue[]> {
     const headers = new HttpHeaders({
-      'Authorization': 'fsq3GEVQvzNHfQp14wbZ+6D14vo4S5HoVsMM8Tis87DrZzM=',
+      'Authorization': process.env['FOURSQUARE_API_KEY'] || 'API_KEY',
     });
 
     const tartuBusStationLat = 58.3801;
@@ -41,6 +40,10 @@ export class FoursquareService {
   }
 
   getLatestBurgerJointImage(fsq_id: string): Observable<FoursquareBurgerJointPhoto[]> {
+    const headers = new HttpHeaders({
+      'Authorization': process.env['FOURSQUARE_API_KEY'] || 'API_KEY',
+    });
+
     const params = new HttpParams()
       .set('client_id', this.clientId)
       .set('client_secret', this.clientSecret)
@@ -48,7 +51,7 @@ export class FoursquareService {
       .set('sort', 'newest')
       .set('limit', 1);
 
-    return this.http.get<FoursquareBurgerJointPhoto[]>(`${this.baseUrl}/getLatestPhoto`, { params });
+    return this.http.get<FoursquareBurgerJointPhoto[]>(`${this.baseUrl}/getLatestPhoto`, { headers, params });
   }
 
 }
