@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FoursquareService } from './foursquare.service';
 import { RecognizeBurgerService } from './recognizeBurger.service';
 import { Observable, forkJoin, map } from 'rxjs';
+import { FoursquareBurgerJointPhoto, Venue } from './types/types';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,8 @@ export class AppComponent implements OnInit {
     lng: 26.7200
   };
   zoom = 13;
-  latestPhotos: any[] = [];
-  burgerImages: any[] = [];
+  latestPhotos: string[] = [];
+  burgerImages: string[] = [];
   size = 200;
   openInfoWindow: google.maps.InfoWindow | null = null;
 
@@ -48,17 +49,17 @@ export class AppComponent implements OnInit {
     });
   }
 
-  fetchBurgerJointsInTartu(): any {
+  fetchBurgerJointsInTartu(): void {
     const icon = {
-      url: 'assets/burgerIcon.png',
+      url: 'assets/icons/burgerIcon.png',
       scaledSize: new google.maps.Size(35, 45),
       origin: new google.maps.Point(0, 0),
       anchor: new google.maps.Point(22.5, 45)
     };
 
-    this.foursquareService.getBurgerJointsInTartu().subscribe((data: any) => {
+    this.foursquareService.getBurgerJointsInTartu().subscribe((data: Venue[]) => {
       const places = data;
-      places.forEach((place: any) => {
+      places.forEach((place: Venue) => {
         const latLng = new google.maps.LatLng(place.geocodes.main.latitude, place.geocodes.main.longitude);
         const marker = new google.maps.Marker({
           position: latLng,
@@ -83,8 +84,8 @@ export class AppComponent implements OnInit {
     });
   }
 
-  getLatestImageAndRecognizeBurger(id: string): any {
-    this.foursquareService.getLatestBurgerJointImage(id).subscribe((data: any) => {
+  getLatestImageAndRecognizeBurger(id: string): void {
+    this.foursquareService.getLatestBurgerJointImage(id).subscribe((data: FoursquareBurgerJointPhoto[]) => {
       if (data[0]) {
         const photoUrl = `${data[0].prefix}${this.size}${data[0].suffix}`;
         this.latestPhotos.push(photoUrl);
@@ -93,9 +94,8 @@ export class AppComponent implements OnInit {
     });
   }
 
-  recognizeBurger(photoUrl: string): any {
+  recognizeBurger(photoUrl: string): void {
     this.recognizeBurgerService.recognizeBurger(photoUrl).subscribe((response) => {
-      console.log('Recognition result:', response);
       this.burgerImages.push(response);
     });
   }

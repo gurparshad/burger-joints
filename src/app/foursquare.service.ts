@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { FoursquareBurgerJointPhoto, FoursquareBurgerJointsResponse, Venue } from './types/types';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class FoursquareService {
 
   http = inject(HttpClient)
 
-  getBurgerJointsInTartu(): Observable<any> {
+  getBurgerJointsInTartu(): Observable<Venue[]> {
     const headers = new HttpHeaders({
       'Authorization': 'fsq3GEVQvzNHfQp14wbZ+6D14vo4S5HoVsMM8Tis87DrZzM=',
     });
@@ -22,10 +23,8 @@ export class FoursquareService {
     const tartuBusStationLat = 58.3801;
     const tartuBusStationLng = 26.7200;
 
-    // Constructing the ll parameter for the center point
     const centerPoint = `${tartuBusStationLat},${tartuBusStationLng}`;
 
-    // client secret and client ID should not go in the params.
     const params = new HttpParams()
       .set('ll', centerPoint)
       .set('limit', 50)
@@ -34,14 +33,14 @@ export class FoursquareService {
       .set('client_id', this.clientId)
       .set('client_secret', this.clientSecret);
 
-    return this.http.get(`${this.baseUrl}/search`, { params }).pipe(
-      map((response: any) => {
-        return response.results.filter((venue: any) => venue.distance > 1000);
+    return this.http.get<FoursquareBurgerJointsResponse>(`${this.baseUrl}/search`, { headers, params }).pipe(
+      map((response: FoursquareBurgerJointsResponse) => {
+        return response.results.filter((venue: Venue) => venue.distance > 1000);
       })
-    );
+    )
   }
 
-  getLatestBurgerJointImage(fsq_id: string): Observable<any> {
+  getLatestBurgerJointImage(fsq_id: string): Observable<FoursquareBurgerJointPhoto[]> {
     const params = new HttpParams()
       .set('client_id', this.clientId)
       .set('client_secret', this.clientSecret)
@@ -49,7 +48,7 @@ export class FoursquareService {
       .set('sort', 'newest')
       .set('limit', 1);
 
-    return this.http.get(`${this.baseUrl}/getLatestPhoto`, { params });
+    return this.http.get<FoursquareBurgerJointPhoto[]>(`${this.baseUrl}/getLatestPhoto`, { params });
   }
 
 }
