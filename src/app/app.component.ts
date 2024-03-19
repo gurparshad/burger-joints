@@ -47,6 +47,7 @@ export class AppComponent implements OnInit {
   fetchBurgerJointsInTartu(): void {
     this.foursquareService.getBurgerJointsInTartu().subscribe((data: any) => {
       const places = data.results;
+      console.log("places-->", places)
       places.forEach((place: any) => {
         const latLng = new google.maps.LatLng(place.geocodes.main.latitude, place.geocodes.main.longitude);
         const marker = new google.maps.Marker({
@@ -62,7 +63,7 @@ export class AppComponent implements OnInit {
         });
 
         // Fetch latest photo for each place
-        this.getLatestImages(place.fsq_id);
+        // this.getLatestImages(place.fsq_id);
       });
     });
   }

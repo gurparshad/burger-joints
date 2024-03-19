@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +19,22 @@ export class FoursquareService {
       'Authorization': 'fsq3GEVQvzNHfQp14wbZ+6D14vo4S5HoVsMM8Tis87DrZzM=',
     });
 
+    const tartuBusStationLat = 58.3801;
+    const tartuBusStationLng = 26.7200;
+
+    // Constructing the ll parameter for the center point
+    const centerPoint = `${tartuBusStationLat},${tartuBusStationLng}`;
+
     // client secret and client ID should not go in the params.
     const params = new HttpParams()
-      .set('near', 'Tartu')
+      .set('ll', centerPoint)
+      .set('limit', 50)
       .set('query', 'burger')
+      .set('categories', 13031)
       .set('client_id', this.clientId)
-      .set('client_secret', this.clientSecret)
-    // .set('v', '20240316');
+      .set('client_secret', this.clientSecret);
 
-    return this.http.get(`${this.baseUrl}/search`, { params });
+    return this.http.get(`${this.baseUrl}/search`, { params })
   }
 
   getLatestBurgerJointImage(fsq_id: string): Observable<any> {
