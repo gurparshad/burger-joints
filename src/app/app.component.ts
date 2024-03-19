@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   latestPhotos: any[] = [];
   burgerImages: any[] = [];
   size = 200;
+  openInfoWindow: google.maps.InfoWindow | null = null;
 
   ngOnInit(): void {
     this.initMap();
@@ -48,6 +49,13 @@ export class AppComponent implements OnInit {
   }
 
   fetchBurgerJointsInTartu(): any {
+    const icon = {
+      url: 'assets/burgerIcon.png',
+      scaledSize: new google.maps.Size(35, 45),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(22.5, 45)
+    };
+
     this.foursquareService.getBurgerJointsInTartu().subscribe((data: any) => {
       const places = data;
       places.forEach((place: any) => {
@@ -55,13 +63,19 @@ export class AppComponent implements OnInit {
         const marker = new google.maps.Marker({
           position: latLng,
           map: this.map,
-          title: place.name
+          title: place.name,
+          icon: icon
         });
+        const infoWindow = new google.maps.InfoWindow({
+          content: place.name
+        });
+
         marker.addListener('click', () => {
-          const infoWindow = new google.maps.InfoWindow({
-            content: place.name
-          });
+          if (this.openInfoWindow) {
+            this.openInfoWindow.close();
+          }
           infoWindow.open(this.map, marker);
+          this.openInfoWindow = infoWindow;
         });
 
         this.getLatestImageAndRecognizeBurger(place.fsq_id);
