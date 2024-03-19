@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FoursquareService } from './foursquare.service';
+import { RecognizeBurgerService } from './recognizeBurger.service';
+import { Observable, forkJoin, map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +9,7 @@ import { FoursquareService } from './foursquare.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private foursquareService: FoursquareService) { }
+  constructor(private foursquareService: FoursquareService, private recognizeBurgerService: RecognizeBurgerService) { }
 
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef<HTMLDivElement>;
   map!: google.maps.Map;
@@ -17,7 +19,8 @@ export class AppComponent implements OnInit {
     lng: 26.7200
   };
   zoom = 13;
-  latestPhotos: any[] = []; // Array to store latest photos
+  latestPhotos: any[] = [];
+  burgerImages: any[] = [];
   size = 200;
 
   ngOnInit(): void {
@@ -44,10 +47,9 @@ export class AppComponent implements OnInit {
     });
   }
 
-  fetchBurgerJointsInTartu(): void {
+  fetchBurgerJointsInTartu(): any {
     this.foursquareService.getBurgerJointsInTartu().subscribe((data: any) => {
-      const places = data.results;
-      console.log("places-->", places)
+      const places = data;
       places.forEach((place: any) => {
         const latLng = new google.maps.LatLng(place.geocodes.main.latitude, place.geocodes.main.longitude);
         const marker = new google.maps.Marker({
@@ -62,30 +64,31 @@ export class AppComponent implements OnInit {
           infoWindow.open(this.map, marker);
         });
 
-        // Fetch latest photo for each place
-        // this.getLatestImages(place.fsq_id);
+        this.getLatestImageAndRecognizeBurger(place.fsq_id);
       });
     });
   }
 
-  getLatestImages(id: string): void {
+  getLatestImageAndRecognizeBurger(id: string): any {
     this.foursquareService.getLatestBurgerJointImage(id).subscribe((data: any) => {
-      console.log("data-->>", data[0]);
-      this.latestPhotos.push(data[0]); // Push latest photo to the array
+      if (data[0]) {
+        const photoUrl = `${data[0].prefix}${this.size}${data[0].suffix}`;
+        this.latestPhotos.push(photoUrl);
+        this.recognizeBurger(photoUrl);
+      }
     });
   }
 
-  moveMap(event: google.maps.MapMouseEvent) {
-    if (event.latLng != null) {
-      this.center = event.latLng.toJSON();
-      this.map.setCenter(event.latLng);
-      this.circle.setCenter(event.latLng);
-    }
+  recognizeBurger(photoUrl: string): any {
+    this.recognizeBurgerService.recognizeBurger(photoUrl).subscribe((response) => {
+      console.log('Recognition result:', response);
+      this.burgerImages.push(response);
+    });
   }
 
-  move(event: google.maps.MapMouseEvent) {
-    if (event.latLng != null) {
-      this.center = event.latLng.toJSON();
-    }
+  isBurgerImage(photoUrl: string): boolean {
+    return this.burgerImages.includes(photoUrl);
   }
+
+
 }

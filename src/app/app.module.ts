@@ -7,6 +7,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { FoursquareService } from './foursquare.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PhotosComponent } from './photos/photos.component';
+import { RecognizeBurgerService } from './recognizeBurger.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { PhotosComponent } from './photos/photos.component';
     GoogleMapsModule,
     HttpClientModule
   ],
-  providers: [FoursquareService],
+  providers: [FoursquareService, RecognizeBurgerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

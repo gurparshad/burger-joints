@@ -4,10 +4,10 @@
 
 <div #mapContainer style="height: 450px; width: 1000px;"></div>
 
-<div class="image-container">
+<div class="image-container" style="display: flex; flex-wrap: wrap;">
   <div *ngFor="let photo of latestPhotos">
     <ng-container *ngIf="photo">
-      <img [src]="photo.prefix + size + photo.suffix" style="height: 200px; width: 200px;">
+      <img [src]="photo" style="height: 200px; width: 200px;" [ngClass]="{'burger-image': isBurgerImage(photo)}">
     </ng-container>
   </div>
 </div>

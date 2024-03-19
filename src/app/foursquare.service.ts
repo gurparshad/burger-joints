@@ -34,15 +34,22 @@ export class FoursquareService {
       .set('client_id', this.clientId)
       .set('client_secret', this.clientSecret);
 
-    return this.http.get(`${this.baseUrl}/search`, { params })
+    return this.http.get(`${this.baseUrl}/search`, { params }).pipe(
+      map((response: any) => {
+        return response.results.filter((venue: any) => venue.distance > 1000);
+      })
+    );
   }
 
   getLatestBurgerJointImage(fsq_id: string): Observable<any> {
     const params = new HttpParams()
       .set('client_id', this.clientId)
       .set('client_secret', this.clientSecret)
-      .set('fsq_id', fsq_id);
+      .set('fsq_id', fsq_id)
+      .set('sort', 'newest')
+      .set('limit', 1);
 
     return this.http.get(`${this.baseUrl}/getLatestPhoto`, { params });
   }
+
 }
