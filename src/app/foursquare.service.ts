@@ -29,8 +29,6 @@ export class FoursquareService {
       .set('limit', 50)
       .set('query', 'burger')
       .set('categories', 13031)
-      .set('client_id', this.clientId)
-      .set('client_secret', this.clientSecret);
 
     return this.http.get<FoursquareBurgerJointsResponse>(`${this.baseUrl}/search`, { headers, params }).pipe(
       map((response: FoursquareBurgerJointsResponse) => {
@@ -45,13 +43,9 @@ export class FoursquareService {
     });
 
     const params = new HttpParams()
-      .set('client_id', this.clientId)
-      .set('client_secret', this.clientSecret)
-      .set('fsq_id', fsq_id)
       .set('sort', 'newest')
-      .set('limit', 1);
 
-    return this.http.get<FoursquareBurgerJointPhoto[]>(`${this.baseUrl}/getLatestPhoto`, { headers, params });
+    return this.http.get<FoursquareBurgerJointPhoto[]>(`${this.baseUrl}/getLatestPhoto/${fsq_id}`, { headers, params });
   }
 
 }
