@@ -1,14 +1,14 @@
-<h1>New app</h1>
-
-<div #mapContainer style="height: 450px; width: 1000px;"></div>
-
-<div class="image-container" style="display: flex; flex-wrap: wrap;">
-  <div *ngFor="let photo of latestPhotos">
-    <ng-container *ngIf="photo">
-      <img [src]="photo" style="height: 200px; width: 200px;" [ngClass]="{'burger-image': isBurgerImage(photo)}">
-    </ng-container>
+<div>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Venues</h2>
+    <h5>Loading Data....</h5>
+  </div>
+  <div #mapContainer style="height: 450px;"></div>
+  <div class="image-container">
+    <div *ngFor="let photo of latestPhotos" class="image-wrapper">
+      <ng-container *ngIf="photo">
+        <img [src]="photo" [ngClass]="{'burger-image': isBurgerImage(photo)}">
+      </ng-container>
+    </div>
   </div>
 </div>
-
-<div>Latitude: {{ center.lat }}</div>
-<div>Longitude: {{ center.lng }}</div>

@@ -9,8 +9,6 @@ import { FoursquareBurgerJointPhoto, FoursquareBurgerJointsResponse, Venue } fro
 })
 export class FoursquareService {
   private readonly baseUrl = process.env['PROXY_URL'] || '';
-  private readonly clientId = process.env['FOURSQUARE_CLIENT_ID'] || '';
-  private readonly clientSecret = process.env['FOURSQUARE_CLIENT_SECRET'] || '';
 
   private http = inject(HttpClient)
 

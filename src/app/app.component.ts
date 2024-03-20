@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FoursquareService } from './foursquare.service';
 import { RecognizeBurgerService } from './recognizeBurger.service';
-import { Observable, forkJoin, map } from 'rxjs';
 import { FoursquareBurgerJointPhoto, Venue } from './types/types';
 
 @Component({
@@ -89,7 +88,7 @@ export class AppComponent implements OnInit {
       if (data[0]) {
         const photoUrl = `${data[0].prefix}${this.size}${data[0].suffix}`;
         this.latestPhotos.push(photoUrl);
-        this.recognizeBurger(photoUrl);
+        // this.recognizeBurger(photoUrl);
       }
     });
   }
