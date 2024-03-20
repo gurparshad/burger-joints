@@ -8,11 +8,13 @@ import { FoursquareService } from './foursquare.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PhotosComponent } from './photos/photos.component';
 import { RecognizeBurgerService } from './recognizeBurger.service';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PhotosComponent
+    PhotosComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

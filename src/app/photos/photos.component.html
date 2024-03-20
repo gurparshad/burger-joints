@@ -1,1 +1,7 @@
-<p>photos works!</p>
+<div class="image-container">
+  <div *ngFor="let photo of latestPhotos">
+    <ng-container *ngIf="photo">
+      <img [src]="photo" [ngClass]="{'burger-image': isBurgerImage(photo)}">
+    </ng-container>
+  </div>
+</div>

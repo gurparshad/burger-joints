@@ -5,12 +5,6 @@
       <h5 class="loading">Loading Data....</h5>
     </div>
   </div>
-  <div #mapContainer style="height: 450px;"></div>
-  <div class="image-container">
-    <div *ngFor="let photo of latestPhotos">
-      <ng-container *ngIf="photo">
-        <img [src]="photo" [ngClass]="{'burger-image': isBurgerImage(photo)}">
-      </ng-container>
-    </div>
-  </div>
+  <app-map [burgerJoints]="burgerJointsData"></app-map>
+  <app-photos *ngIf="burgerJointsData.length > 0" [burgerJoints]="burgerJointsData"></app-photos>
 </div>

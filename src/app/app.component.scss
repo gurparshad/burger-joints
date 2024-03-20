@@ -4,33 +4,3 @@
 .loading {
   color: #fff
 }
-
-.burger-image {
-  border: 5px solid red;
-}
-
-.image-container {
-  margin-top: 30px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-img {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-@media (max-width: $breakpoint-lg) {
-  .image-container {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: $breakpoint-md) {
-  .image-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
