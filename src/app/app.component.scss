@@ -1,5 +1,10 @@
 @import '../styles/shared/variables.scss';
 
+.heading,
+.loading {
+  color: #fff
+}
+
 .burger-image {
   border: 5px solid red;
 }
@@ -11,14 +16,11 @@
   gap: 10px;
 }
 
-.image-wrapper {
-  overflow: hidden;
-}
-
 img {
   width: 100%;
   height: auto;
   border-radius: 5px;
+  box-sizing: border-box;
 }
 
 @media (max-width: $breakpoint-lg) {

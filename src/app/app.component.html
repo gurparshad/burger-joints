@@ -1,11 +1,13 @@
 <div>
   <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h2>Venues</h2>
-    <h5>Loading Data....</h5>
+    <h2 class="heading">Venues</h2>
+    <div *ngIf="loadingData">
+      <h5 class="loading">Loading Data....</h5>
+    </div>
   </div>
   <div #mapContainer style="height: 450px;"></div>
   <div class="image-container">
-    <div *ngFor="let photo of latestPhotos" class="image-wrapper">
+    <div *ngFor="let photo of latestPhotos">
       <ng-container *ngIf="photo">
         <img [src]="photo" [ngClass]="{'burger-image': isBurgerImage(photo)}">
       </ng-container>

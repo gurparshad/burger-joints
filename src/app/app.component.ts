@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   burgerImages: string[] = [];
   size = 200;
   openInfoWindow: google.maps.InfoWindow | null = null;
+  loadingData: boolean = false;
 
   ngOnInit(): void {
     this.initMap();
@@ -49,6 +50,8 @@ export class AppComponent implements OnInit {
   }
 
   fetchBurgerJointsInTartu(): void {
+    this.loadingData = true;
+
     const icon = {
       url: 'assets/icons/burgerIcon.png',
       scaledSize: new google.maps.Size(35, 45),
@@ -88,8 +91,9 @@ export class AppComponent implements OnInit {
       if (data[0]) {
         const photoUrl = `${data[0].prefix}${this.size}${data[0].suffix}`;
         this.latestPhotos.push(photoUrl);
-        // this.recognizeBurger(photoUrl);
+        this.recognizeBurger(photoUrl);
       }
+      this.loadingData = false;
     });
   }
 
