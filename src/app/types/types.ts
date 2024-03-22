@@ -44,7 +44,7 @@ interface Chain {
 }
 
 interface RelatedPlaces {
-  parent: string;
+  parent?: string;
 }
 
 export interface Venue {

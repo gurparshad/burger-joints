@@ -6,19 +6,20 @@ import {
   FoursquareBurgerJointPhoto,
   FoursquareBurgerJointsResponse,
   Venue,
-} from './types/types';
+} from '../types/types';
+import { environment } from '../../../environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FoursquareService {
-  private readonly baseUrl = process.env['BASE_URL'] || '';
+  private readonly baseUrl = environment.baseUrl || '';
 
   private http = inject(HttpClient);
 
   getBurgerJointsInTartu(): Observable<Venue[]> {
     const headers = new HttpHeaders({
-      Authorization: process.env['FOURSQUARE_API_KEY'] || 'API_KEY',
+      Authorization: environment.foursquareApiKey || 'API_KEY',
     });
 
     const tartuBusStationLat = 58.3801;
@@ -27,9 +28,8 @@ export class FoursquareService {
     const centerPoint = `${tartuBusStationLat},${tartuBusStationLng}`;
 
     const params = new HttpParams()
-      .set('ll', centerPoint)
       .set('limit', 50)
-      .set('query', 'burger')
+      .set('ll', centerPoint)
       .set('categories', 13031);
 
     return this.http
@@ -39,6 +39,7 @@ export class FoursquareService {
       })
       .pipe(
         map((response: FoursquareBurgerJointsResponse) => {
+          console.log('response-->>', response.results);
           return response.results.filter(
             (venue: Venue) => venue.distance > 1000
           );
@@ -50,15 +51,14 @@ export class FoursquareService {
     fsq_id: string
   ): Observable<FoursquareBurgerJointPhoto[]> {
     const headers = new HttpHeaders({
-      Authorization: process.env['FOURSQUARE_API_KEY'] || 'API_KEY',
+      Authorization: environment.foursquareApiKey || 'API_KEY',
     });
 
-    // const params = new HttpParams()
-    //   .set('sort', 'newest')
+    const params = new HttpParams().set('sort', 'newest');
 
     return this.http.get<FoursquareBurgerJointPhoto[]>(
       `${this.baseUrl}/${fsq_id}/photos`,
-      { headers }
+      { headers, params }
     );
   }
 }

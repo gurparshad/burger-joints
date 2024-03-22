@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FoursquareService } from './foursquare.service';
+import { FoursquareService } from './foursquareService/foursquare.service';
 import { Venue } from './types/types';
 
 @Component({

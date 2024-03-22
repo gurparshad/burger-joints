@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FoursquareBurgerJointPhoto, Venue } from '../types/types';
-import { FoursquareService } from '../foursquare.service';
-import { RecognizeBurgerService } from '../recognizeBurger.service';
+import { FoursquareService } from '../foursquareService/foursquare.service';
+import { RecognizeBurgerService } from '../recognizeBurgerService/recognizeBurger.service';
 
 @Component({
   selector: 'app-photos',
@@ -37,7 +37,7 @@ export class PhotosComponent implements OnInit {
         if (data[0]) {
           const photoUrl = `${data[0].prefix}${this.size}${data[0].suffix}`;
           this.latestPhotos.push(photoUrl);
-          this.recognizeBurger(photoUrl);
+          // this.recognizeBurger(photoUrl);
         }
       });
   }
