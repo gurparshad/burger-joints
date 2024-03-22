@@ -8,7 +8,7 @@ import { FoursquareBurgerJointPhoto, FoursquareBurgerJointsResponse, Venue } fro
   providedIn: 'root'
 })
 export class FoursquareService {
-  private readonly baseUrl = process.env['PROXY_URL'] || '';
+  private readonly baseUrl = process.env['BASE_URL'] || '';
 
   private http = inject(HttpClient)
 
@@ -43,7 +43,8 @@ export class FoursquareService {
     const params = new HttpParams()
       .set('sort', 'newest')
 
-    return this.http.get<FoursquareBurgerJointPhoto[]>(`${this.baseUrl}/getLatestPhoto/${fsq_id}`, { headers, params });
+    return this.http.get<FoursquareBurgerJointPhoto[]>(`${this.baseUrl}/${fsq_id}/photos`, { headers });
+
   }
 
 }
