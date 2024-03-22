@@ -1,7 +1,6 @@
 <div>
   <div
-    style="display: flex; justify-content: space-between; align-items: center"
-  >
+    style="display: flex; justify-content: space-between; align-items: center">
     <h2 class="heading">Venues</h2>
     <div *ngIf="loadingData">
       <h5 class="loading">Loading Data....</h5>
@@ -10,6 +9,5 @@
   <app-map [burgerJoints]="burgerJointsData"></app-map>
   <app-photos
     *ngIf="burgerJointsData.length > 0"
-    [burgerJoints]="burgerJointsData"
-  ></app-photos>
+    [burgerJoints]="burgerJointsData"></app-photos>
 </div>

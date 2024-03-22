@@ -68,7 +68,7 @@ export class MapComponent implements OnInit, OnChanges {
     this.burgerJoints.forEach((place: Venue) => {
       const latLng = new google.maps.LatLng(
         place.geocodes.main.latitude,
-        place.geocodes.main.longitude,
+        place.geocodes.main.longitude
       );
       const marker = new google.maps.Marker({
         position: latLng,

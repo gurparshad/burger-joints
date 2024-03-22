@@ -11,7 +11,7 @@ import { RecognizeBurgerService } from '../recognizeBurger.service';
 export class PhotosComponent implements OnInit {
   constructor(
     private foursquareService: FoursquareService,
-    private recognizeBurgerService: RecognizeBurgerService,
+    private recognizeBurgerService: RecognizeBurgerService
   ) {}
 
   @Input() burgerJoints: Venue[] = [];
@@ -45,7 +45,7 @@ export class PhotosComponent implements OnInit {
   recognizeBurger(photoUrl: string): void {
     this.recognizeBurgerService
       .recognizeBurger(photoUrl)
-      .subscribe((response) => {
+      .subscribe(response => {
         this.burgerImages.push(response);
       });
   }

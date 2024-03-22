@@ -40,14 +40,14 @@ export class FoursquareService {
       .pipe(
         map((response: FoursquareBurgerJointsResponse) => {
           return response.results.filter(
-            (venue: Venue) => venue.distance > 1000,
+            (venue: Venue) => venue.distance > 1000
           );
-        }),
+        })
       );
   }
 
   getLatestBurgerJointImage(
-    fsq_id: string,
+    fsq_id: string
   ): Observable<FoursquareBurgerJointPhoto[]> {
     const headers = new HttpHeaders({
       Authorization: process.env['FOURSQUARE_API_KEY'] || 'API_KEY',
@@ -58,7 +58,7 @@ export class FoursquareService {
 
     return this.http.get<FoursquareBurgerJointPhoto[]>(
       `${this.baseUrl}/${fsq_id}/photos`,
-      { headers },
+      { headers }
     );
   }
 }

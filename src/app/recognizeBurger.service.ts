@@ -25,7 +25,7 @@ export class RecognizeBurgerService {
       .post<RecognizeBurgerResponse>(
         `${process.env['RECOGNIZE_BURGER_API_URL']}`,
         requestBody,
-        { headers },
+        { headers }
       )
       .pipe(
         map((response: RecognizeBurgerResponse) => {
@@ -38,7 +38,7 @@ export class RecognizeBurgerService {
         catchError((error: HttpErrorResponse) => {
           console.error('An error occurred:', error);
           return of('No burger found.');
-        }),
+        })
       );
   }
 }
