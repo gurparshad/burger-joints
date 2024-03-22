@@ -11,18 +11,14 @@ import { RecognizeBurgerService } from './recognizeBurger.service';
 import { MapComponent } from './map/map.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PhotosComponent,
-    MapComponent
-  ],
+  declarations: [AppComponent, PhotosComponent, MapComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     GoogleMapsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [FoursquareService, RecognizeBurgerService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

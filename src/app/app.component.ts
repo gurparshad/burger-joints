@@ -5,10 +5,10 @@ import { Venue } from './types/types';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private foursquareService: FoursquareService) { }
+  constructor(private foursquareService: FoursquareService) {}
   loadingData: boolean = false;
   burgerJointsData: Venue[] = [];
 
@@ -18,9 +18,11 @@ export class AppComponent implements OnInit {
 
   fetchBurgerJointsInTartu(): void {
     this.loadingData = true;
-    this.foursquareService.getBurgerJointsInTartu().subscribe((data: Venue[]) => {
-      this.burgerJointsData = data;
-      this.loadingData = false;
-    });
+    this.foursquareService
+      .getBurgerJointsInTartu()
+      .subscribe((data: Venue[]) => {
+        this.burgerJointsData = data;
+        this.loadingData = false;
+      });
   }
 }

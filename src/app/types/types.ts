@@ -47,7 +47,6 @@ interface RelatedPlaces {
   parent: string;
 }
 
-
 export interface Venue {
   fsq_id: string;
   categories: Category[];
@@ -79,5 +78,5 @@ export interface FoursquareBurgerJointPhoto {
 }
 
 export interface RecognizeBurgerResponse {
-  urlWithBurger: string
+  urlWithBurger: string;
 }
