@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { PhotosComponent } from './photos/photos.component';
 import { RecognizeBurgerService } from './recognizeBurgerService/recognizeBurger.service';
 import { MapComponent } from './map/map.component';
+import { loadingReducer } from './store/loading/loading.reducer';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [AppComponent, PhotosComponent, MapComponent],
@@ -17,6 +19,7 @@ import { MapComponent } from './map/map.component';
     AppRoutingModule,
     GoogleMapsModule,
     HttpClientModule,
+    StoreModule.forRoot({ loading: loadingReducer }),
   ],
   providers: [FoursquareService, RecognizeBurgerService],
   bootstrap: [AppComponent],

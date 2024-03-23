@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FoursquareService } from './foursquareService/foursquare.service';
 import { Venue } from './types/types';
+import { setLoadingTrue } from './store/loading/loading.actions';
+import { Store, select } from '@ngrx/store';
+import { AppState } from './store/app-state';
+import { Observable } from 'rxjs';
+import { getLoadingState } from './store/loading/loading.selectors';
 
 @Component({
   selector: 'app-root',
@@ -8,21 +13,24 @@ import { Venue } from './types/types';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private foursquareService: FoursquareService) {}
-  loadingData: boolean = false;
+  loading$!: Observable<boolean>;
+  constructor(
+    private foursquareService: FoursquareService,
+    private store: Store<AppState>
+  ) {}
   burgerJointsData: Venue[] = [];
 
   ngOnInit(): void {
+    this.loading$ = this.store.pipe(select(getLoadingState));
     this.fetchBurgerJointsInTartu();
   }
 
   fetchBurgerJointsInTartu(): void {
-    this.loadingData = true;
+    this.store.dispatch(setLoadingTrue());
     this.foursquareService
       .getBurgerJointsInTartu()
       .subscribe((data: Venue[]) => {
         this.burgerJointsData = data;
-        this.loadingData = false;
       });
   }
 }

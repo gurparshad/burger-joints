@@ -2,7 +2,7 @@
   <div
     style="display: flex; justify-content: space-between; align-items: center">
     <h2 class="heading">Venues</h2>
-    <div *ngIf="loadingData">
+    <div *ngIf="loading$ | async as loadingState">
       <h5 class="loading">Loading Data....</h5>
     </div>
   </div>
