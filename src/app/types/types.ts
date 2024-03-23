@@ -78,5 +78,6 @@ export interface FoursquareBurgerJointPhoto {
 }
 
 export interface RecognizeBurgerResponse {
-  urlWithBurger: string;
+  urlWithBurger?: string;
+  error?: string;
 }

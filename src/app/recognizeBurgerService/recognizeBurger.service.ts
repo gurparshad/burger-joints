@@ -7,6 +7,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { RecognizeBurgerResponse } from '../types/types';
+import { environment } from '../../../environment';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class RecognizeBurgerService {
 
     return this.http
       .post<RecognizeBurgerResponse>(
-        `${process.env['RECOGNIZE_BURGER_API_URL']}`,
+        environment.recognizeBurgerApiUrl,
         requestBody,
         { headers }
       )
