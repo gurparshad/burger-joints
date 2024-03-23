@@ -5,7 +5,7 @@ import { RecognizeBurgerService } from '../recognizeBurgerService/recognizeBurge
 import { Store, select } from '@ngrx/store';
 import { setLoadingFalse } from '../store/loading/loading.actions';
 import { getLoadingState } from '../store/loading/loading.selectors';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable, concatMap } from 'rxjs';
 import { AppState } from '../store/app-state';
 
 @Component({
@@ -34,7 +34,6 @@ export class PhotosComponent implements OnInit {
   }
 
   processBurgerJoints(): void {
-    console.log(' this.loading$-->>', this.loading$);
     this.burgerJoints.forEach((place: Venue) => {
       this.getLatestImageAndRecognizeBurger(place.fsq_id);
     });
@@ -43,26 +42,31 @@ export class PhotosComponent implements OnInit {
   getLatestImageAndRecognizeBurger(id: string): void {
     this.foursquareService
       .getLatestBurgerJointImage(id)
-      .subscribe((data: FoursquareBurgerJointPhoto[]) => {
-        if (data[0]) {
-          const photoUrl = `${data[0].prefix}${this.size}${data[0].suffix}`;
-          this.latestPhotos.push(photoUrl);
-          this.recognizeBurger(photoUrl);
+      .pipe(
+        concatMap((data: FoursquareBurgerJointPhoto[]) => {
+          if (data[0]) {
+            const photoUrl = `${data[0].prefix}${this.size}${data[0].suffix}`;
+            this.latestPhotos.push(photoUrl);
+            return this.recognizeBurger(photoUrl);
+          } else {
+            return EMPTY;
+          }
+        })
+      )
+      .subscribe(response => {
+        if (response != null) {
+          this.burgerImages.push(response);
+          this.successfulPhotoRetrievals++;
         }
-        this.successfulPhotoRetrievals = this.successfulPhotoRetrievals + 1;
 
-        if (this.successfulPhotoRetrievals === this.burgerJoints.length) {
+        if (this.successfulPhotoRetrievals === this.latestPhotos.length) {
           this.store.dispatch(setLoadingFalse());
         }
       });
   }
 
-  recognizeBurger(photoUrl: string): void {
-    this.recognizeBurgerService
-      .recognizeBurger(photoUrl)
-      .subscribe(response => {
-        this.burgerImages.push(response);
-      });
+  recognizeBurger(photoUrl: string): Observable<any> {
+    return this.recognizeBurgerService.recognizeBurger(photoUrl);
   }
 
   isBurgerImage(photoUrl: string): boolean {

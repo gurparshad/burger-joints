@@ -5,7 +5,6 @@ import { createReducer, on } from '@ngrx/store';
 const _loadingReducer = createReducer(
   initialState,
   on(setLoadingTrue, state => {
-    console.log('here here');
     return {
       ...state,
       isLoading: true,
