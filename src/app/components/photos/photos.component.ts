@@ -65,7 +65,7 @@ export class PhotosComponent implements OnInit {
       });
   }
 
-  recognizeBurger(photoUrl: string): Observable<any> {
+  recognizeBurger(photoUrl: string): Observable<string> {
     return this.recognizeBurgerService.recognizeBurger(photoUrl);
   }
 
