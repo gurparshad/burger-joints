@@ -7,7 +7,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { Venue } from '../types/types';
+import { Venue } from '../../types/types';
 
 @Component({
   selector: 'app-map',

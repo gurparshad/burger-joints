@@ -6,8 +6,8 @@ import {
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { RecognizeBurgerResponse } from '../types/types';
-import { environment } from '../../../environment';
+import { RecognizeBurgerResponse } from '../../types/types';
+import { environment } from '../../../../environment';
 
 @Injectable({
   providedIn: 'root',

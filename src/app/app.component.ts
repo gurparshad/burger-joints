@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FoursquareService } from './foursquareService/foursquare.service';
+import { FoursquareService } from './services/foursquareService/foursquare.service';
 import { Venue } from './types/types';
 import { setLoadingTrue } from './store/loading/loading.actions';
 import { Store, select } from '@ngrx/store';

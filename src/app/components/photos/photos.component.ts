@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FoursquareBurgerJointPhoto, Venue } from '../types/types';
-import { FoursquareService } from '../foursquareService/foursquare.service';
-import { RecognizeBurgerService } from '../recognizeBurgerService/recognizeBurger.service';
+import { FoursquareBurgerJointPhoto, Venue } from '../../types/types';
+import { FoursquareService } from '../../services/foursquareService/foursquare.service';
+import { RecognizeBurgerService } from '../../services/recognizeBurgerService/recognizeBurger.service';
 import { Store, select } from '@ngrx/store';
-import { setLoadingFalse } from '../store/loading/loading.actions';
-import { getLoadingState } from '../store/loading/loading.selectors';
+import { setLoadingFalse } from '../../store/loading/loading.actions';
+import { getLoadingState } from '../../store/loading/loading.selectors';
 import { EMPTY, Observable, concatMap } from 'rxjs';
-import { AppState } from '../store/app-state';
+import { AppState } from '../../store/app-state';
 
 @Component({
   selector: 'app-photos',

@@ -6,8 +6,8 @@ import {
   FoursquareBurgerJointPhoto,
   FoursquareBurgerJointsResponse,
   Venue,
-} from '../types/types';
-import { environment } from '../../../environment';
+} from '../../types/types';
+import { environment } from '../../../../environment';
 
 @Injectable({
   providedIn: 'root',
