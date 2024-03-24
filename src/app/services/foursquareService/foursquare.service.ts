@@ -3,10 +3,11 @@ import {
   HttpHeaders,
   HttpParams,
   HttpResponse,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import {
   FoursquareBurgerJointPhoto,
   FoursquareBurgerJointsResponse,
@@ -33,10 +34,11 @@ export class FoursquareService {
     fsqId: string
   ): Observable<FoursquareBurgerJointPhoto[]> {
     const params = new HttpParams().set('sort', 'newest');
-    return this.http.get<FoursquareBurgerJointPhoto[]>(
-      `${this.baseUrl}/${fsqId}/photos`,
-      { headers: this.headers, params }
-    );
+    return this.http
+      .get<
+        FoursquareBurgerJointPhoto[]
+      >(`${this.baseUrl}/${fsqId}/photos`, { headers: this.headers, params })
+      .pipe(catchError(this.handleError));
   }
 
   public getBurgerJointsInTartu(): Observable<Venue[]> {
@@ -53,7 +55,8 @@ export class FoursquareService {
       .set('categories', categoryId);
 
     return this.fetchVenues(`${this.baseUrl}/search`, params).pipe(
-      switchMap(response => this.handleResponse(response, distanceFromCenter))
+      switchMap(response => this.handleResponse(response, distanceFromCenter)),
+      catchError(this.handleError)
     );
   }
 
@@ -62,7 +65,8 @@ export class FoursquareService {
     distanceFromCenter: number
   ): Observable<Venue[]> {
     return this.fetchVenues(nextPageUrl).pipe(
-      switchMap(response => this.handleResponse(response, distanceFromCenter))
+      switchMap(response => this.handleResponse(response, distanceFromCenter)),
+      catchError(this.handleError)
     );
   }
 
@@ -70,11 +74,13 @@ export class FoursquareService {
     url: string,
     params?: HttpParams
   ): Observable<HttpResponse<FoursquareBurgerJointsResponse>> {
-    return this.http.get<FoursquareBurgerJointsResponse>(url, {
-      headers: this.headers,
-      params,
-      observe: 'response',
-    });
+    return this.http
+      .get<FoursquareBurgerJointsResponse>(url, {
+        headers: this.headers,
+        params,
+        observe: 'response',
+      })
+      .pipe(catchError(this.handleError));
   }
 
   private handleResponse(
@@ -101,5 +107,10 @@ export class FoursquareService {
   private extractNextPageUrl(linkHeader: string): string | null {
     const match = linkHeader.match(/<([^>]*)>; rel="next"/);
     return match ? match[1] : null;
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('An error occurred:', error);
+    return throwError(() => 'Something went wrong; please try again later.');
   }
 }
