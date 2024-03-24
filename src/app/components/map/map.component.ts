@@ -7,7 +7,11 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { Venue } from '../../types/types';
+import { Venue } from '../../utils/types';
+import {
+  MAP_CENTER_LATITUDE,
+  MAP_CENTER_LONGITUDE,
+} from '../../utils/constants';
 
 @Component({
   selector: 'app-map',
@@ -22,10 +26,11 @@ export class MapComponent implements OnInit, OnChanges {
   map!: google.maps.Map;
   circle!: google.maps.Circle;
   center: google.maps.LatLngLiteral = {
-    lat: 58.3801,
-    lng: 26.72,
+    lat: MAP_CENTER_LATITUDE,
+    lng: MAP_CENTER_LONGITUDE,
   };
   zoom = 13;
+  radius = 1000;
   openInfoWindow: google.maps.InfoWindow | null = null;
 
   ngOnInit(): void {
@@ -53,7 +58,7 @@ export class MapComponent implements OnInit, OnChanges {
       fillOpacity: 0.35,
       map: this.map,
       center: this.center,
-      radius: 1000,
+      radius: this.radius,
     });
   }
 

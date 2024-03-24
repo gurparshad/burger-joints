@@ -6,8 +6,12 @@ import {
   FoursquareBurgerJointPhoto,
   FoursquareBurgerJointsResponse,
   Venue,
-} from '../../types/types';
+} from '../../utils/types';
 import { environment } from '../../../../environment';
+import {
+  MAP_CENTER_LATITUDE,
+  MAP_CENTER_LONGITUDE,
+} from '../../utils/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +35,9 @@ export class FoursquareService {
   }
 
   public getBurgerJointsInTartu(): Observable<Venue[]> {
-    const tartuBusStationLat = 58.3801;
-    const tartuBusStationLng = 26.72;
+    const tartuBusStationLat = MAP_CENTER_LATITUDE;
+    const tartuBusStationLng = MAP_CENTER_LONGITUDE;
+    const distanceFromCenter = 1000;
 
     const centerPoint = `${tartuBusStationLat},${tartuBusStationLng}`;
     const limit = 50;
@@ -52,7 +57,7 @@ export class FoursquareService {
         switchMap(response => {
           const venues: Venue[] =
             response.body?.results.filter(
-              (venue: Venue) => venue.distance > 1000
+              (venue: Venue) => venue.distance > distanceFromCenter
             ) || [];
           const nextPageLink = response.headers.get('link');
           if (nextPageLink) {

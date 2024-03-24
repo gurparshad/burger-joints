@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FoursquareBurgerJointPhoto, Venue } from '../../types/types';
+import { FoursquareBurgerJointPhoto, Venue } from '../../utils/types';
 import { FoursquareService } from '../../services/foursquareService/foursquare.service';
 import { RecognizeBurgerService } from '../../services/recognizeBurgerService/recognizeBurger.service';
 import { Store, select } from '@ngrx/store';

@@ -1,0 +1,2 @@
+export const MAP_CENTER_LATITUDE = 58.3801;
+export const MAP_CENTER_LONGITUDE = 26.72;
