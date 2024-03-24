@@ -69,8 +69,7 @@ export class FoursquareService {
   private fetchVenues(
     url: string,
     params?: HttpParams
-  ): Observable<FoursquareBurgerJointsResponse> {
-    // @ts-ignore
+  ): Observable<HttpResponse<FoursquareBurgerJointsResponse>> {
     return this.http.get<FoursquareBurgerJointsResponse>(url, {
       headers: this.headers,
       params,
@@ -79,7 +78,7 @@ export class FoursquareService {
   }
 
   private handleResponse(
-    response: any,
+    response: HttpResponse<FoursquareBurgerJointsResponse>,
     distanceFromCenter: number
   ): Observable<Venue[]> {
     const venues: Venue[] =
