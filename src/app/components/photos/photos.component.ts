@@ -2,11 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FoursquareBurgerJointPhoto, Venue } from '../../utils/types';
 import { FoursquareService } from '../../services/foursquareService/foursquare.service';
 import { RecognizeBurgerService } from '../../services/recognizeBurgerService/recognizeBurger.service';
-import { Store, select } from '@ngrx/store';
-import { setLoadingFalse } from '../../store/loading/loading.actions';
-import { getLoadingState } from '../../store/loading/loading.selectors';
 import { EMPTY, Observable, concatMap } from 'rxjs';
-import { AppState } from '../../store/app-state';
+import { LoadingService } from '../../services/loadingService/loading.service';
 
 @Component({
   selector: 'app-photos',
@@ -18,7 +15,7 @@ export class PhotosComponent implements OnInit {
   constructor(
     private foursquareService: FoursquareService,
     private recognizeBurgerService: RecognizeBurgerService,
-    private store: Store<AppState>
+    private loadingService: LoadingService
   ) {}
 
   @Input() burgerJoints: Venue[] = [];
@@ -29,7 +26,6 @@ export class PhotosComponent implements OnInit {
   private successfulPhotoRetrievals: number = 0;
 
   ngOnInit(): void {
-    this.loading$ = this.store.pipe(select(getLoadingState));
     this.processBurgerJoints();
   }
 
@@ -60,7 +56,7 @@ export class PhotosComponent implements OnInit {
         }
 
         if (this.successfulPhotoRetrievals === this.latestPhotos.length) {
-          this.store.dispatch(setLoadingFalse());
+          this.loadingService.setLoadingState(false);
         }
       });
   }
