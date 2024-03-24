@@ -1,4 +1,9 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -25,11 +30,11 @@ export class FoursquareService {
   constructor(private http: HttpClient) {}
 
   public getLatestBurgerJointImage(
-    fsq_id: string
+    fsqId: string
   ): Observable<FoursquareBurgerJointPhoto[]> {
     const params = new HttpParams().set('sort', 'newest');
     return this.http.get<FoursquareBurgerJointPhoto[]>(
-      `${this.baseUrl}/${fsq_id}/photos`,
+      `${this.baseUrl}/${fsqId}/photos`,
       { headers: this.headers, params }
     );
   }
@@ -47,56 +52,51 @@ export class FoursquareService {
       .set('ll', centerPoint)
       .set('categories', categoryId);
 
-    return this.http
-      .get<FoursquareBurgerJointsResponse>(`${this.baseUrl}/search`, {
-        headers: this.headers,
-        params,
-        observe: 'response',
-      })
-      .pipe(
-        switchMap(response => {
-          const venues: Venue[] =
-            response.body?.results.filter(
-              (venue: Venue) => venue.distance > distanceFromCenter
-            ) || [];
-          const nextPageLink = response.headers.get('link');
-          if (nextPageLink) {
-            const nextPageUrl = this.extractNextPageUrl(nextPageLink);
-            if (nextPageUrl) {
-              return this.fetchNextPage(nextPageUrl).pipe(
-                map(nextVenues => venues.concat(nextVenues))
-              );
-            }
-          }
-          return of(venues);
-        })
-      );
+    return this.fetchVenues(`${this.baseUrl}/search`, params).pipe(
+      switchMap(response => this.handleResponse(response, distanceFromCenter))
+    );
   }
 
-  private fetchNextPage(nextPageUrl: string): Observable<Venue[]> {
-    return this.http
-      .get<FoursquareBurgerJointsResponse>(nextPageUrl, {
-        headers: this.headers,
-        observe: 'response',
-      })
-      .pipe(
-        switchMap(response => {
-          const venues: Venue[] =
-            response.body?.results.filter(
-              (venue: Venue) => venue.distance > 1000
-            ) || [];
-          const nextPageLink = response.headers.get('link');
-          if (nextPageLink) {
-            const nextPageUrl = this.extractNextPageUrl(nextPageLink);
-            if (nextPageUrl) {
-              return this.fetchNextPage(nextPageUrl).pipe(
-                map(nextVenues => venues.concat(nextVenues))
-              );
-            }
-          }
-          return of(venues);
-        })
-      );
+  private fetchNextPage(
+    nextPageUrl: string,
+    distanceFromCenter: number
+  ): Observable<Venue[]> {
+    return this.fetchVenues(nextPageUrl).pipe(
+      switchMap(response => this.handleResponse(response, distanceFromCenter))
+    );
+  }
+
+  private fetchVenues(
+    url: string,
+    params?: HttpParams
+  ): Observable<FoursquareBurgerJointsResponse> {
+    // @ts-ignore
+    return this.http.get<FoursquareBurgerJointsResponse>(url, {
+      headers: this.headers,
+      params,
+      observe: 'response',
+    });
+  }
+
+  private handleResponse(
+    response: any,
+    distanceFromCenter: number
+  ): Observable<Venue[]> {
+    const venues: Venue[] =
+      response.body?.results.filter(
+        (venue: Venue) => venue.distance > distanceFromCenter
+      ) || [];
+
+    const nextPageLink = response.headers.get('link');
+    if (nextPageLink) {
+      const nextPageUrl = this.extractNextPageUrl(nextPageLink);
+      if (nextPageUrl) {
+        return this.fetchNextPage(nextPageUrl, distanceFromCenter).pipe(
+          map(nextVenues => venues.concat(nextVenues))
+        );
+      }
+    }
+    return of(venues);
   }
 
   private extractNextPageUrl(linkHeader: string): string | null {
