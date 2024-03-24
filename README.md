@@ -17,6 +17,7 @@ This is burger joints application that shows the burger joints near tartu bus st
 
 - Clone the project using the command "git clone https://github.com/gurparshad/burger-joints.git"
 - Go into the root directory of the project
+- Create a "environemnt.ts" file in the root directory and place in the environemnt variables provided in teh google docs.
 - The Angular CLI requires a minimum Node.js version of v18.13. So switch to the required version or above by running the command "nvm use <node_version>"
 - Run "npm install" to install al the required packages.
 - Run "npm start"
