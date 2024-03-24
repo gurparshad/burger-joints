@@ -1,5 +1,5 @@
 import { setLoadingFalse, setLoadingTrue } from './loading.actions';
-import { initialState } from './loading.state';
+import { LoadingState, initialState } from './loading.state';
 import { createReducer, on, Action } from '@ngrx/store';
 
 const _loadingReducer = createReducer(
@@ -18,6 +18,9 @@ const _loadingReducer = createReducer(
   })
 );
 
-export function loadingReducer(state: any, action: Action) {
+export function loadingReducer(
+  state: LoadingState | undefined,
+  action: Action
+) {
   return _loadingReducer(state, action);
 }
