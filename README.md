@@ -34,17 +34,17 @@ This is burger joints application that shows the burger joints near tartu bus st
 
 ## Tech stack
 
-Angular 17
-Rxjs
-Ngrx
-SCSS
-HTML
-Typescript
-Google maps api
-eslint
-prettier
+- Angular 17
+- Rxjs
+- Ngrx
+- SCSS
+- HTML
+- Typescript
+- Google maps api
+- eslint
+- prettier
 
-## Further improvemenets
+## Further improvemenets and tasks that could be done.
 
 - Test cases - Unit and E2E
 - Ui Improvements
