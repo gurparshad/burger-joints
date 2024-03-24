@@ -37,8 +37,16 @@ export class RecognizeBurgerService {
           }
         }),
         catchError((error: HttpErrorResponse) => {
-          console.error('An error occurred:', error);
-          return of('No burger found.');
+          if (error.status === 404) {
+            console.error('404 Error:', error);
+            return of('No burger found.');
+          } else if (error.status === 500) {
+            console.error('500 Error:', error);
+            return of('Internal Server Error.');
+          } else {
+            console.error('An error occurred:', error);
+            return of('Unknown error occurred.');
+          }
         })
       );
   }
