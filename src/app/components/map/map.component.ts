@@ -22,16 +22,16 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() burgerJoints: Venue[] = [];
 
   @ViewChild('mapContainer', { static: true })
-  mapContainer!: ElementRef<HTMLDivElement>;
-  map!: google.maps.Map;
-  circle!: google.maps.Circle;
-  center: google.maps.LatLngLiteral = {
+  private mapContainer!: ElementRef<HTMLDivElement>;
+  private map!: google.maps.Map;
+  private circle!: google.maps.Circle;
+  private center: google.maps.LatLngLiteral = {
     lat: MAP_CENTER_LATITUDE,
     lng: MAP_CENTER_LONGITUDE,
   };
-  zoom = 13;
-  radius = 1000;
-  openInfoWindow: google.maps.InfoWindow | null = null;
+  private zoom = 13;
+  private radius = 1000;
+  private openInfoWindow: google.maps.InfoWindow | null = null;
 
   ngOnInit(): void {
     this.initMap();

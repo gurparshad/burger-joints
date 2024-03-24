@@ -23,10 +23,10 @@ export class PhotosComponent implements OnInit {
 
   @Input() burgerJoints: Venue[] = [];
 
-  latestPhotos: string[] = [];
-  burgerImages: string[] = [];
-  size = 200;
-  successfulPhotoRetrievals: number = 0;
+  public latestPhotos: string[] = [];
+  private burgerImages: string[] = [];
+  private size = 200;
+  private successfulPhotoRetrievals: number = 0;
 
   ngOnInit(): void {
     this.loading$ = this.store.pipe(select(getLoadingState));
