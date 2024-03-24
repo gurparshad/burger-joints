@@ -1,27 +1,52 @@
 # BurgerJoints
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.3.
+This is burger joints application that shows the burger joints near tartu bus station outside 1Km radius.
 
-## Development server
+## Information
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- 2 main components Map(Shows the Map with venues) and Photos(Display the burger joint images).
+- Some of the Burger joints don't have images.
+- Latest burger joint image has been fetched and one with the burger in them is highlighted with red border.
+- I added custom marker for the burger joints.
+- In the master branch ngrx is used sharing the loading state. It is not required for such a small application. It has been implemented just to demonstrate that i am familiar with the state management concept.
+- Without Ngrx implementation could be find in the branch - "behaviour-subject-loading-service"
+- A separate loading service is implemented to keep the code clean.
+- Test cases are added for the recognize burger service.
 
-## Code scaffolding
+## App Setup
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Clone the project using the command "git clone https://github.com/gurparshad/burger-joints.git"
+- Go into the root directory of the project
+- The Angular CLI requires a minimum Node.js version of v18.13. So switch to the required version or above by running the command "nvm use <node_version>"
+- Run "npm install" to install al the required packages.
+- Run "npm start"
+- The application will start at http://localhost:4200/ if the port is not already in use.
 
-## Build
+## Commands
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- npm start: to start the application
+- npm run build: to build the application
+- npm run watch: to start the application in watch mode
+- npm run test: to run the test cases
+- npm run lint: for linting, will give errors and warnings if find any linting issue
+- npm run format: will run prettier formatter.
+- pre-commit-msg: will run before every git commit.
 
-## Running unit tests
+## Tech stack
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Angular 17
+Rxjs
+Ngrx
+SCSS
+HTML
+Typescript
+Google maps api
+eslint
+prettier
 
-## Running end-to-end tests
+## Further improvemenets
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Test cases - Unit and E2E
+- Ui Improvements
+- Containerize the application using docker
+- Global Error handling and Fallback UI.
