@@ -23,7 +23,7 @@ import {
   providedIn: 'root',
 })
 export class FoursquareService {
-  private readonly baseUrl = environment.baseUrl || '';
+  private readonly baseUrl = environment.foursquareBaseUrl || '';
   private headers = new HttpHeaders({
     Authorization: environment.foursquareApiKey || 'API_KEY',
   });
